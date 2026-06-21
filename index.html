@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fumi apps</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #1a1d24;
+      --text: #e8eaed;
+      --muted: #9aa0a6;
+      --accent: #4f8cff;
+      --border: #2a2e37;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Yu Gothic", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+    header { margin-bottom: 48px; }
+    h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: 0.01em; }
+    header p { color: var(--muted); margin-top: 8px; font-size: 0.95rem; }
+    .apps { display: grid; gap: 20px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+    }
+    .card h2 { font-size: 1.25rem; font-weight: 700; }
+    .card .desc { color: var(--text); margin-top: 10px; }
+    .card .desc-en { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 11px 22px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .btn:hover { opacity: 0.9; }
+    footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--muted); }
+    footer .links { margin-bottom: 12px; }
+    footer .links a { margin-right: 18px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>fumi apps</h1>
+      <p>個人で iOS アプリを作っています。 / Indie iOS app developer.</p>
+    </header>
+
+    <main class="apps">
+      <article class="card">
+        <h2>Visitory — 旅ログ</h2>
+        <p class="desc">国・都市・世界遺産、あなたの旅をまとめて記録。</p>
+        <p class="desc-en">Track the countries, cities, and World Heritage Sites you've visited — all in one travel log.</p>
+        <a class="btn" href="https://apps.apple.com/jp/app/visitory-%E6%97%85%E3%83%AD%E3%82%B0/id6762121328">App Store で見る / View on App Store</a>
+      </article>
+    </main>
+
+    <footer>
+      <div class="links">
+        <a href="https://www.notion.so/34ae9f0974fb80f287d0e0ed75a5cfc7">サポート / Support</a>
+        <a href="https://www.notion.so/344e9f0974fb80da84d7cd809ef17854">プライバシーポリシー / Privacy</a>
+      </div>
+      <div>© 2026 fumi apps</div>
+    </footer>
+  </div>
+</body>
+</html>
