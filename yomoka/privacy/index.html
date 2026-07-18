@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>プライバシーポリシー / Privacy Policy — YOMOKA</title>
   <link rel="stylesheet" href="../../assets/style.css">
-  <style>:root { --accent: #52B9AC; }</style>
+  <style>:root { --accent: #5B9CE8; }</style>
 </head>
 <body>
   <div class="wrap">
@@ -13,7 +13,7 @@
 
     <header>
       <h1>プライバシーポリシー / Privacy Policy</h1>
-      <p class="updated">YOMOKA ・ 最終更新日 2026年7月14日 / Last updated July 14, 2026</p>
+      <p class="updated">YOMOKA ・ 最終更新日 2026年7月18日 / Last updated July 18, 2026</p>
     </header>
 
     <p>本ポリシーは、iOS アプリ「YOMOKA」（以下「本アプリ」）における利用者情報の取り扱いについて定めるものです。</p>
@@ -34,20 +34,16 @@
     <p class="lang-en">The App uses the camera to scan the barcode (ISBN) on the back cover of a book. The camera feed is processed on-device and is never transmitted or stored externally. Camera access is optional; you can also search and register titles manually.</p>
 
     <h2>書誌情報の取得 / Book Information Lookup</h2>
-    <p>作品や巻を検索・登録する際、入力された作品名やバーコードから読み取った ISBN を、書誌情報サービス（openBD および 楽天ブックス）の API に送信し、タイトル・著者・出版社・書影・発売日などの情報を取得します。これらの通信は書誌情報の取得のみを目的とし、利用者を特定する情報は送信しません。取得先サービスでの処理は、各サービスのプライバシーポリシーに従います。</p>
-    <p class="lang-en">When you search for or register a title, the App sends the entered title or the ISBN scanned from a barcode to book-information services (openBD and Rakuten Books) to retrieve details such as title, author, publisher, cover image, and release date. These requests are solely for retrieving bibliographic data and do not include personally identifiable information. Processing on those services follows their respective privacy policies.</p>
+    <p>作品や巻を検索・登録する際、入力された作品名やバーコードから読み取った ISBN を書誌情報サービスに送信し、タイトル・著者・出版社・書影・発売日などの情報を取得します。バーコード（ISBN）の照会は openBD に直接送信します。作品名での検索、ランキング・新刊情報の取得は、開発者が運用する中継サーバー（Cloudflare Workers）を経由して楽天ブックスの API に送信されます。この中継サーバーは書誌情報の取得および応答のキャッシュのみを目的とし、利用者を特定する情報は送信・保存しません。取得先サービスでの処理は、各サービスのプライバシーポリシーに従います。</p>
+    <p class="lang-en">When you search for or register a title, the App sends the entered title or the ISBN scanned from a barcode to book-information services to retrieve details such as title, author, publisher, cover image, and release date. Barcode (ISBN) lookups are sent directly to openBD. Title searches and ranking / new-release information are sent to the Rakuten Books API through a relay server operated by the developer (Cloudflare Workers). This relay server is used solely to retrieve and cache bibliographic data and does not send or store personally identifiable information. Processing on those services follows their respective privacy policies.</p>
 
     <h2>購入リンク / Purchase Links</h2>
-    <p>各巻には楽天ブックスの購入ページへのリンクを表示することがあります。このリンクにはアフィリエイト ID が含まれます。リンクを開いた先のページでの情報の取り扱いは、楽天のプライバシーポリシーが適用されます。</p>
-    <p class="lang-en">Each volume may show a link to its purchase page on Rakuten Books. This link contains an affiliate ID. Information handling on the linked page is governed by Rakuten's privacy policy.</p>
+    <p>各巻には楽天ブックスおよび Amazon の購入ページへのリンクを表示することがあります。これらのリンクにはアフィリエイト ID が含まれます。リンクを開いた先のページでの情報の取り扱いは、各サービス（楽天・Amazon）のプライバシーポリシーが適用されます。</p>
+    <p class="lang-en">Each volume may show links to its purchase page on Rakuten Books and Amazon. These links contain affiliate IDs. Information handling on the linked pages is governed by the respective services' (Rakuten and Amazon) privacy policies.</p>
 
     <h2>通知 / Notifications</h2>
     <p>登録シリーズの新刊発売日をお知らせするために、端末内のローカル通知を使用します。通知の判定・配信はすべて端末内で完結し、外部に送信されることはありません。通知は許可制です。</p>
     <p class="lang-en">The App uses on-device local notifications to remind you of release dates for new volumes of your registered series. Scheduling and delivery happen entirely on your device and are never transmitted externally. Notifications are optional.</p>
-
-    <h2>購入 / Purchases</h2>
-    <p>YOMOKA Pro の購入は Apple の App Store（StoreKit）を通じて処理されます。決済情報は Apple が取り扱い、開発者が取得することはありません。</p>
-    <p class="lang-en">YOMOKA Pro purchases are processed through Apple's App Store (StoreKit). Payment details are handled by Apple and are not accessible to the developer.</p>
 
     <h2>広告・解析 / Advertising &amp; Analytics</h2>
     <p>本アプリは、広告や解析（アナリティクス）、トラッキングのための第三者 SDK を一切使用していません。</p>
