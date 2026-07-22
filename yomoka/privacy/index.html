@@ -37,9 +37,9 @@
     <p>作品や巻を検索・登録する際、入力された作品名やバーコードから読み取った ISBN を書誌情報サービスに送信し、タイトル・著者・出版社・書影・発売日などの情報を取得します。バーコード（ISBN）の照会は openBD に直接送信します。作品名での検索、ランキング・新刊情報の取得は、開発者が運用する中継サーバー（Cloudflare Workers）を経由して楽天ブックスの API に送信されます。この中継サーバーは書誌情報の取得および応答のキャッシュのみを目的とし、利用者を特定する情報は送信・保存しません。取得先サービスでの処理は、各サービスのプライバシーポリシーに従います。</p>
     <p class="lang-en">When you search for or register a title, the App sends the entered title or the ISBN scanned from a barcode to book-information services to retrieve details such as title, author, publisher, cover image, and release date. Barcode (ISBN) lookups are sent directly to openBD. Title searches and ranking / new-release information are sent to the Rakuten Books API through a relay server operated by the developer (Cloudflare Workers). This relay server is used solely to retrieve and cache bibliographic data and does not send or store personally identifiable information. Processing on those services follows their respective privacy policies.</p>
 
-    <h2>購入リンク / Purchase Links</h2>
-    <p>各巻には楽天ブックスおよび Amazon の購入ページへのリンクを表示することがあります。これらのリンクにはアフィリエイト ID が含まれます。リンクを開いた先のページでの情報の取り扱いは、各サービス（楽天・Amazon）のプライバシーポリシーが適用されます。</p>
-    <p class="lang-en">Each volume may show links to its purchase page on Rakuten Books and Amazon. These links contain affiliate IDs. Information handling on the linked pages is governed by the respective services' (Rakuten and Amazon) privacy policies.</p>
+    <h2>購入リンク・アフィリエイト / Purchase Links &amp; Affiliate Disclosure</h2>
+    <p>各巻には楽天ブックスおよび Amazon の購入ページへのリンクを表示することがあります。本アプリは楽天アフィリエイトおよび Amazon アソシエイト・プログラムの参加者であり、これらのリンクにはアフィリエイト ID が含まれます。リンクを経由して商品が購入された場合、売上の一部が製作者に還元されることがあります。これによる追加の費用が利用者に生じることはありません。リンクを開いた先のページでの情報の取り扱いは、各サービス（楽天・Amazon）のプライバシーポリシーが適用されます。</p>
+    <p class="lang-en">Each volume may show links to its purchase page on Rakuten Books and Amazon. The App is a participant in the Rakuten Affiliate and Amazon Associates programs, and these links contain affiliate IDs. As an Amazon Associate, the developer earns from qualifying purchases; purchases made through these links may earn the developer a commission at no additional cost to you. Information handling on the linked pages is governed by the respective services' (Rakuten and Amazon) privacy policies.</p>
 
     <h2>通知 / Notifications</h2>
     <p>登録シリーズの新刊発売日をお知らせするために、端末内のローカル通知を使用します。通知の判定・配信はすべて端末内で完結し、外部に送信されることはありません。通知は許可制です。</p>
