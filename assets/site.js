@@ -247,25 +247,41 @@
     var btnNext = lb.querySelector(".lb-next");
     var btnClose = lb.querySelector(".lb-close");
     var app = null, count = 0, idx = 0, lastFocus = null;
+    var shotManifest = null;
 
     function curLang() { return root.getAttribute("data-lang") === "en" ? "en" : "ja"; }
-    function dir(a) { return "assets/apps/" + a + "/" + curLang() + "/"; }
-    function srcFor(i) { return dir(app) + i + ".webp"; }
+    function appShots(a) {
+      if (!shotManifest || !shotManifest.apps || !shotManifest.apps[a]) return null;
+      return shotManifest.apps[a][curLang()] || shotManifest.apps[a].ja || shotManifest.apps[a].en || null;
+    }
+    function countFor(a) {
+      var shots = appShots(a);
+      return shots && shots.count ? shots.count : 0;
+    }
+    function srcFor(i) {
+      var shots = appShots(app);
+      return shots && shots.images ? shots.images[i - 1] : "";
+    }
+    function thumbFor(a, i) {
+      var shots = appShots(a);
+      return shots && shots.thumbs ? shots.thumbs[i - 1] : "";
+    }
     function preload(i) { if (i >= 1 && i <= count) { new Image().src = srcFor(i); } }
 
     function buildStrips() {
       for (var s = 0; s < strips.length; s++) {
         var strip = strips[s];
         var a = strip.getAttribute("data-shots");
-        var n = parseInt(strip.getAttribute("data-count"), 10) || 1;
+        var n = countFor(a);
         strip.innerHTML = "";
+        if (!n) continue;
         for (var i = 1; i <= n; i++) {
           var btn = document.createElement("button");
           btn.type = "button";
           btn.className = "strip-item";
           btn.setAttribute("aria-label", a + " " + i + " / " + n);
           var im = document.createElement("img");
-          im.src = dir(a) + "thumb_" + i + ".webp";
+          im.src = thumbFor(a, i);
           im.alt = "";
           im.loading = "lazy";
           btn.appendChild(im);
@@ -278,6 +294,7 @@
     }
 
     function show(i) {
+      if (!count) return;
       idx = (i + count) % count;
       lbImg.src = srcFor(idx + 1);
       countEl.textContent = (idx + 1) + " / " + count;
@@ -304,6 +321,7 @@
     function openLb(a, n, start) {
       app = a;
       count = n;
+      if (!count) return;
       lastFocus = document.activeElement;
       buildDots();
       lb.hidden = false;
@@ -324,10 +342,19 @@
       if (lastFocus) lastFocus.focus();
     }
 
-    buildStrips();
+    function initGallery(manifest) {
+      shotManifest = manifest;
+      buildStrips();
+    }
+
     window.addEventListener("langchange", function () {
       buildStrips();
-      if (!lb.hidden) show(idx);
+      if (!lb.hidden && app) {
+        count = countFor(app);
+        if (!count) { closeLb(); return; }
+        buildDots();
+        show(Math.min(idx, count - 1));
+      }
     });
     btnPrev.addEventListener("click", function () { show(idx - 1); });
     btnNext.addEventListener("click", function () { show(idx + 1); });
@@ -353,5 +380,14 @@
       var dx = p.clientX - sx, dy = p.clientY - sy;
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(dx < 0 ? idx + 1 : idx - 1);
     }, { passive: true });
+
+    if (typeof fetch === "function") {
+      fetch("assets/apps/manifest.json")
+        .then(function (res) { return res.ok ? res.json() : null; })
+        .then(initGallery)
+        .catch(function () { initGallery(null); });
+    } else {
+      initGallery(null);
+    }
   }
 })();

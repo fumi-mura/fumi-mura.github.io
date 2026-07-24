@@ -1,0 +1,224 @@
+{
+  "apps": {
+    "dripshot": {
+      "en": {
+        "count": 5,
+        "images": [
+          "assets/apps/dripshot/en/1.webp",
+          "assets/apps/dripshot/en/2.webp",
+          "assets/apps/dripshot/en/3.webp",
+          "assets/apps/dripshot/en/4.webp",
+          "assets/apps/dripshot/en/5.webp"
+        ],
+        "thumbs": [
+          "assets/apps/dripshot/en/thumb_1.webp",
+          "assets/apps/dripshot/en/thumb_2.webp",
+          "assets/apps/dripshot/en/thumb_3.webp",
+          "assets/apps/dripshot/en/thumb_4.webp",
+          "assets/apps/dripshot/en/thumb_5.webp"
+        ]
+      },
+      "ja": {
+        "count": 5,
+        "images": [
+          "assets/apps/dripshot/ja/1.webp",
+          "assets/apps/dripshot/ja/2.webp",
+          "assets/apps/dripshot/ja/3.webp",
+          "assets/apps/dripshot/ja/4.webp",
+          "assets/apps/dripshot/ja/5.webp"
+        ],
+        "thumbs": [
+          "assets/apps/dripshot/ja/thumb_1.webp",
+          "assets/apps/dripshot/ja/thumb_2.webp",
+          "assets/apps/dripshot/ja/thumb_3.webp",
+          "assets/apps/dripshot/ja/thumb_4.webp",
+          "assets/apps/dripshot/ja/thumb_5.webp"
+        ]
+      }
+    },
+    "patrimo": {
+      "en": {
+        "count": 5,
+        "images": [
+          "assets/apps/patrimo/en/1.webp",
+          "assets/apps/patrimo/en/2.webp",
+          "assets/apps/patrimo/en/3.webp",
+          "assets/apps/patrimo/en/4.webp",
+          "assets/apps/patrimo/en/5.webp"
+        ],
+        "thumbs": [
+          "assets/apps/patrimo/en/thumb_1.webp",
+          "assets/apps/patrimo/en/thumb_2.webp",
+          "assets/apps/patrimo/en/thumb_3.webp",
+          "assets/apps/patrimo/en/thumb_4.webp",
+          "assets/apps/patrimo/en/thumb_5.webp"
+        ]
+      },
+      "ja": {
+        "count": 5,
+        "images": [
+          "assets/apps/patrimo/ja/1.webp",
+          "assets/apps/patrimo/ja/2.webp",
+          "assets/apps/patrimo/ja/3.webp",
+          "assets/apps/patrimo/ja/4.webp",
+          "assets/apps/patrimo/ja/5.webp"
+        ],
+        "thumbs": [
+          "assets/apps/patrimo/ja/thumb_1.webp",
+          "assets/apps/patrimo/ja/thumb_2.webp",
+          "assets/apps/patrimo/ja/thumb_3.webp",
+          "assets/apps/patrimo/ja/thumb_4.webp",
+          "assets/apps/patrimo/ja/thumb_5.webp"
+        ]
+      }
+    },
+    "pulltimer": {
+      "en": {
+        "count": 4,
+        "images": [
+          "assets/apps/pulltimer/en/1.webp",
+          "assets/apps/pulltimer/en/2.webp",
+          "assets/apps/pulltimer/en/3.webp",
+          "assets/apps/pulltimer/en/4.webp"
+        ],
+        "thumbs": [
+          "assets/apps/pulltimer/en/thumb_1.webp",
+          "assets/apps/pulltimer/en/thumb_2.webp",
+          "assets/apps/pulltimer/en/thumb_3.webp",
+          "assets/apps/pulltimer/en/thumb_4.webp"
+        ]
+      },
+      "ja": {
+        "count": 4,
+        "images": [
+          "assets/apps/pulltimer/ja/1.webp",
+          "assets/apps/pulltimer/ja/2.webp",
+          "assets/apps/pulltimer/ja/3.webp",
+          "assets/apps/pulltimer/ja/4.webp"
+        ],
+        "thumbs": [
+          "assets/apps/pulltimer/ja/thumb_1.webp",
+          "assets/apps/pulltimer/ja/thumb_2.webp",
+          "assets/apps/pulltimer/ja/thumb_3.webp",
+          "assets/apps/pulltimer/ja/thumb_4.webp"
+        ]
+      }
+    },
+    "reelo": {
+      "en": {
+        "count": 6,
+        "images": [
+          "assets/apps/reelo/en/1.webp",
+          "assets/apps/reelo/en/2.webp",
+          "assets/apps/reelo/en/3.webp",
+          "assets/apps/reelo/en/4.webp",
+          "assets/apps/reelo/en/5.webp",
+          "assets/apps/reelo/en/6.webp"
+        ],
+        "thumbs": [
+          "assets/apps/reelo/en/thumb_1.webp",
+          "assets/apps/reelo/en/thumb_2.webp",
+          "assets/apps/reelo/en/thumb_3.webp",
+          "assets/apps/reelo/en/thumb_4.webp",
+          "assets/apps/reelo/en/thumb_5.webp",
+          "assets/apps/reelo/en/thumb_6.webp"
+        ]
+      },
+      "ja": {
+        "count": 6,
+        "images": [
+          "assets/apps/reelo/ja/1.webp",
+          "assets/apps/reelo/ja/2.webp",
+          "assets/apps/reelo/ja/3.webp",
+          "assets/apps/reelo/ja/4.webp",
+          "assets/apps/reelo/ja/5.webp",
+          "assets/apps/reelo/ja/6.webp"
+        ],
+        "thumbs": [
+          "assets/apps/reelo/ja/thumb_1.webp",
+          "assets/apps/reelo/ja/thumb_2.webp",
+          "assets/apps/reelo/ja/thumb_3.webp",
+          "assets/apps/reelo/ja/thumb_4.webp",
+          "assets/apps/reelo/ja/thumb_5.webp",
+          "assets/apps/reelo/ja/thumb_6.webp"
+        ]
+      }
+    },
+    "visitory": {
+      "en": {
+        "count": 6,
+        "images": [
+          "assets/apps/visitory/en/1.webp",
+          "assets/apps/visitory/en/2.webp",
+          "assets/apps/visitory/en/3.webp",
+          "assets/apps/visitory/en/4.webp",
+          "assets/apps/visitory/en/5.webp",
+          "assets/apps/visitory/en/6.webp"
+        ],
+        "thumbs": [
+          "assets/apps/visitory/en/thumb_1.webp",
+          "assets/apps/visitory/en/thumb_2.webp",
+          "assets/apps/visitory/en/thumb_3.webp",
+          "assets/apps/visitory/en/thumb_4.webp",
+          "assets/apps/visitory/en/thumb_5.webp",
+          "assets/apps/visitory/en/thumb_6.webp"
+        ]
+      },
+      "ja": {
+        "count": 6,
+        "images": [
+          "assets/apps/visitory/ja/1.webp",
+          "assets/apps/visitory/ja/2.webp",
+          "assets/apps/visitory/ja/3.webp",
+          "assets/apps/visitory/ja/4.webp",
+          "assets/apps/visitory/ja/5.webp",
+          "assets/apps/visitory/ja/6.webp"
+        ],
+        "thumbs": [
+          "assets/apps/visitory/ja/thumb_1.webp",
+          "assets/apps/visitory/ja/thumb_2.webp",
+          "assets/apps/visitory/ja/thumb_3.webp",
+          "assets/apps/visitory/ja/thumb_4.webp",
+          "assets/apps/visitory/ja/thumb_5.webp",
+          "assets/apps/visitory/ja/thumb_6.webp"
+        ]
+      }
+    },
+    "yomoka": {
+      "en": {
+        "count": 5,
+        "images": [
+          "assets/apps/yomoka/en/1.webp",
+          "assets/apps/yomoka/en/2.webp",
+          "assets/apps/yomoka/en/3.webp",
+          "assets/apps/yomoka/en/4.webp",
+          "assets/apps/yomoka/en/5.webp"
+        ],
+        "thumbs": [
+          "assets/apps/yomoka/en/thumb_1.webp",
+          "assets/apps/yomoka/en/thumb_2.webp",
+          "assets/apps/yomoka/en/thumb_3.webp",
+          "assets/apps/yomoka/en/thumb_4.webp",
+          "assets/apps/yomoka/en/thumb_5.webp"
+        ]
+      },
+      "ja": {
+        "count": 5,
+        "images": [
+          "assets/apps/yomoka/ja/1.webp",
+          "assets/apps/yomoka/ja/2.webp",
+          "assets/apps/yomoka/ja/3.webp",
+          "assets/apps/yomoka/ja/4.webp",
+          "assets/apps/yomoka/ja/5.webp"
+        ],
+        "thumbs": [
+          "assets/apps/yomoka/ja/thumb_1.webp",
+          "assets/apps/yomoka/ja/thumb_2.webp",
+          "assets/apps/yomoka/ja/thumb_3.webp",
+          "assets/apps/yomoka/ja/thumb_4.webp",
+          "assets/apps/yomoka/ja/thumb_5.webp"
+        ]
+      }
+    }
+  }
+}
