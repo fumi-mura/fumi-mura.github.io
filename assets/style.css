@@ -32,45 +32,9 @@ body::before {
 }
 
 .wrap {
-  position: relative;
   max-width: 720px;
   margin: 0 auto;
   padding: 56px 24px 96px;
-}
-
-.lang-toggle {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  display: inline-flex;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.lang-toggle button {
-  appearance: none;
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  padding: 6px 14px;
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.lang-toggle button[aria-pressed="true"] {
-  background: var(--accent);
-  color: #fff;
-}
-
-html[data-lang="ja"] .lang-en { display: none; }
-html[data-lang="en"] .lang-ja { display: none; }
-
-html[data-lang="en"] p.lang-en {
-  color: var(--text);
-  font-size: 1rem;
 }
 
 header { margin-bottom: 8px; }
@@ -126,7 +90,7 @@ a {
 
 a:hover { text-decoration: underline; }
 
-p.lang-en { color: var(--muted); font-size: 0.9rem; margin-bottom: 18px; }
+.lang-en { color: var(--muted); font-size: 0.9rem; margin-bottom: 18px; }
 
 .card {
   background: var(--card);
