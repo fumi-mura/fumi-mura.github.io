@@ -28,6 +28,9 @@ ARTICLE_RE = re.compile(
     re.DOTALL,
 )
 
+# タイトルは App Store へのリンクで包まれているので、開始タグを残して中身だけ差し替える
+TITLE_RE = re.compile(r'<h3 class="card-title">\s*(<a\b[^>]*>)?.*?</h3>', re.DOTALL)
+
 
 def read_meta(app_repo, lang, field):
     path = PROGRAM_DIR / app_repo / "fastlane" / "metadata" / lang / f"{field}.txt"
@@ -59,6 +62,15 @@ def bilingual(name_ja, name_en):
     return f'<span class="ja">{esc(name_ja)}</span><span class="en">{esc(name_en)}</span>'
 
 
+def replace_title(inner, name_ja, name_en):
+    def repl(m):
+        open_a = m.group(1) or ""
+        close_a = "</a>" if open_a else ""
+        return f'<h3 class="card-title">{open_a}{bilingual(name_ja, name_en)}{close_a}</h3>'
+
+    return TITLE_RE.sub(repl, inner, count=1)
+
+
 def sync():
     text = INDEX.read_text(encoding="utf-8")
 
@@ -69,11 +81,7 @@ def sync():
             return m.group(0)
         name_ja, name_en, sub_ja, sub_en = fields(app_repo)
         inner = m.group(3)
-        inner = re.sub(
-            r'(<h3 class="card-title">).*?(</h3>)',
-            lambda _: f'<h3 class="card-title">{bilingual(name_ja, name_en)}</h3>',
-            inner, count=1, flags=re.DOTALL,
-        )
+        inner = replace_title(inner, name_ja, name_en)
         inner = re.sub(
             r'(<p class="card-sub">).*?(</p>)',
             lambda _: f'<p class="card-sub">{bilingual(sub_ja, sub_en)}</p>',
