@@ -26,13 +26,6 @@ class BuildAppShotsTests(unittest.TestCase):
             manifest["apps"]["yomoka"]["ja"],
             {
                 "count": 5,
-                "images": [
-                    "assets/apps/yomoka/ja/1.webp",
-                    "assets/apps/yomoka/ja/2.webp",
-                    "assets/apps/yomoka/ja/3.webp",
-                    "assets/apps/yomoka/ja/4.webp",
-                    "assets/apps/yomoka/ja/5.webp",
-                ],
                 "thumbs": [
                     "assets/apps/yomoka/ja/thumb_1.webp",
                     "assets/apps/yomoka/ja/thumb_2.webp",
@@ -43,6 +36,11 @@ class BuildAppShotsTests(unittest.TestCase):
             },
         )
         self.assertEqual(manifest["apps"]["yomoka"]["en"]["count"], 4)
+
+    def test_manifest_has_no_full_size_images(self):
+        manifest = build_app_shots.make_manifest({"yomoka": {"ja": 2}})
+
+        self.assertNotIn("images", manifest["apps"]["yomoka"]["ja"])
 
     def test_clean_output_dir_removes_only_webp_files(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """各 iOS アプリの App Store 用スクショ(完成ポスター)を WebP に変換してサイトへ取り込む。
 
-出力先: assets/apps/{app}/{lang}/{n}.webp       … ライトボックス用(全枚数)
-        assets/apps/{app}/{lang}/thumb_{n}.webp … フィルムストリップ用の小サムネ
+出力先: assets/apps/{app}/{lang}/thumb_{n}.webp … フィルムストリップ用の小サムネ
         assets/apps/manifest.json                … サイト表示用の画像一覧
 
 lang は ja / en(サイトの言語コード)。en の元素材は en-US。
@@ -33,7 +32,6 @@ APPS = {
 # サイトの言語コード -> fastlane のロケール
 LOCALES = {"ja": "ja", "en": "en-US"}
 
-FULL_MAX_H = 1600  # ライトボックス用の高さ上限
 THUMB_MAX_W = 320  # フィルムストリップ用サムネの幅上限
 QUALITY = 80
 
@@ -48,13 +46,6 @@ def source_shots(app_repo, locale):
     if not d.is_dir():
         return []
     return sorted((f for f in d.glob("*.png")), key=natural_key)
-
-
-def resize_to_height(im, max_h):
-    if im.height <= max_h:
-        return im
-    w = round(im.width * max_h / im.height)
-    return im.resize((w, max_h), Image.LANCZOS)
 
 
 def resize_to_width(im, max_w):
@@ -78,7 +69,6 @@ def make_manifest(counts):
             count = counts[app][lang]
             apps[app][lang] = {
                 "count": count,
-                "images": [f"assets/apps/{app}/{lang}/{i}.webp" for i in range(1, count + 1)],
                 "thumbs": [f"assets/apps/{app}/{lang}/thumb_{i}.webp" for i in range(1, count + 1)],
             }
     return {"apps": apps}
@@ -105,9 +95,6 @@ def build():
             clean_output_dir(out_dir)
             for i, src in enumerate(shots, start=1):
                 im = Image.open(src).convert("RGB")
-                resize_to_height(im, FULL_MAX_H).save(
-                    out_dir / f"{i}.webp", "WEBP", quality=QUALITY, method=6
-                )
                 resize_to_width(im, THUMB_MAX_W).save(
                     out_dir / f"thumb_{i}.webp", "WEBP", quality=QUALITY, method=6
                 )
