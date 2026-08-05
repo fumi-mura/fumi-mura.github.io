@@ -1,0 +1,378 @@
+/* アプリ LP のレイアウト。タイポグラフィ・ヘッダ・ダークモードは site.css をそのまま使い、
+   ここには LP 固有の構造だけ置く。
+
+   使う色は白系の地（site.css の --bg）に、テーマ色と差し色の 2 つだけ。
+   --lp-theme は plan.md、--lp-accent は release.yaml の channels.lp.accent から
+   HTML 側で渡る。差し色を持たないアプリはテーマ色に落ちる。 */
+
+:root {
+  --lp-accent: var(--lp-theme);
+  /* テーマ色は白地で読める濃さで渡る。ダークでは明るい側へ寄せてアプリの AccentColor に合わせる */
+  --lp-theme-text: var(--lp-theme);
+  --lp-rule: color-mix(in oklab, var(--text) 16%, transparent);
+  --lp-panel: color-mix(in oklab, var(--text) 5%, transparent);
+  --lp-card: #fff;
+}
+:root[data-theme="dark"] {
+  --lp-theme-text: color-mix(in oklab, var(--lp-theme), white 34%);
+  --lp-panel: color-mix(in oklab, #fff 6%, transparent);
+  --lp-card: color-mix(in oklab, #fff 7%, transparent);
+}
+
+.lp-hero {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  /* 下は scroll-cue の分を空ける */
+  padding: clamp(40px, 8vw, 96px) clamp(20px, 5vw, 40px) 108px;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 400px);
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+}
+.lp-hero-copy { max-width: 620px; }
+
+/* ハブの hero は flex で中央に置くが、LP は 2 列グリッドなので自分で中央へ寄せる。
+   translate は site.css の bounceCue が使う transform と別枠なので互いに潰し合わない */
+.lp-hero .scroll-cue {
+  left: 50%;
+  translate: -50% 0;
+}
+
+/* 日本語見出しは palt で仮名の間延びを詰める */
+.lp-title,
+.lp-spine-title,
+.lp-promise-title,
+.section-title {
+  font-feature-settings: "palt" 1;
+}
+/* 短い見出しは行長を揃える。長い見出しは文節を割るので任せない */
+.lp-promise-title,
+.section-title {
+  text-wrap: balance;
+}
+
+.lp-title {
+  font-size: clamp(34px, 5.5vw, 60px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+.lp-lead {
+  margin-top: 20px;
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.85;
+  color: var(--text-dim);
+}
+
+.lp-cta {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  margin-top: 32px;
+  padding: 15px 32px;
+  background: var(--lp-theme);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+/* 光沢を横切らせるためだけに合図を受ける。フェードは要らないので素の状態に戻す */
+.lp-cta[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+.lp-cta:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+/* 光沢を 1 度だけ横切らせる。押せることを、色を変えずに伝える。
+   登場は ::before、ホバーは ::after と分ける。1 つを共有すると、登場で
+   走り切ったあとホバーで同じアニメーションを指しても再生されない */
+.lp-cta::before,
+.lp-cta::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.42), transparent);
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+.lp-cta:hover::after {
+  animation: lp-sheen 0.75s cubic-bezier(0.3, 0, 0.2, 1);
+}
+/* 視線が届いてから光らせる。入った瞬間だと見出しと重なって取りこぼす */
+.lp-cta.in::before {
+  animation: lp-sheen 0.75s cubic-bezier(0.3, 0, 0.2, 1) 0.9s;
+}
+@keyframes lp-sheen {
+  to { left: 120%; }
+}
+.lp-note {
+  margin-top: 14px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+/* 端末をゆっくり浮かせる。速いと安く見えるので、周期は長く振り幅は小さく */
+.lp-hero-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  animation: lp-float 3s ease-in-out infinite;
+}
+@keyframes lp-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ハブは 1 ページに全案件を詰めるので節を大きく離すが、LP は 1 本の話なので詰める */
+.lp-problems,
+.lp-shelf,
+.lp-capabilities,
+.lp-promise {
+  padding-block: clamp(44px, 6vw, 76px);
+}
+
+/* 課題提起。読み手の独り言なので、囲まずに面で置く */
+.lp-problems-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
+  gap: 12px;
+  max-width: 920px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lp-problem {
+  padding: 22px 26px 22px 24px;
+  border-left: 3px solid var(--lp-theme);
+  background: var(--lp-panel);
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+/* できること。カードを背表紙に見立てて棚に並べる */
+.lp-spines {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+  align-items: stretch;
+  gap: 12px;
+  margin: 0;
+  padding: 0 0 10px;
+  list-style: none;
+}
+/* 棚そのものは動かさない。始まりの合図を受けるためだけに data-reveal を付けている */
+.lp-spines[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+/* 棚板。並んだカードを 1 本の線で受けて本棚に見せる */
+.lp-spines::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px;
+  background: color-mix(in oklab, var(--text) 45%, transparent);
+  /* 棚を左から引いてから本を挿す */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lp-spines.in::after { transform: scaleX(1); }
+
+.lp-spine {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 20px 26px;
+  background: var(--lp-card);
+  border: 1px solid var(--lp-rule);
+  /* 棚板に接地させる。浮かせたときだけ下端が見える */
+  border-bottom: none;
+  opacity: 0;
+  /* 登場は transform、ホバーは translate と使う枠を分ける。
+     同じ枠だと、居座る登場アニメーションがホバーを打ち消す */
+  transition: translate 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* 1 冊ずつ棚に挿す。--i は HTML 側が並び順を書いている */
+.lp-spines.in .lp-spine {
+  animation: lp-spine-rise 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(260ms + var(--i) * 140ms);
+}
+@keyframes lp-spine-rise {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* 背の headband。差し色はここだけに使う */
+.lp-spine::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 8px;
+  background: var(--lp-accent);
+}
+.lp-spine:hover { translate: 0 -6px; }
+
+.lp-spine-title {
+  font-size: clamp(17px, 1.5vw, 19px);
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+.lp-spine-title strong {
+  color: var(--lp-theme-text);
+  font-weight: 700;
+}
+.lp-spine-note {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--lp-rule);
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text-dim);
+}
+
+/* 機能一覧 */
+.lp-capabilities-grid {
+  display: grid;
+  /* 3 列に流すと 1 行あたりが痩せて読めない。2 列までに抑える */
+  grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
+  gap: 0 48px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lp-capability {
+  display: flex;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--lp-rule);
+  font-size: 16px;
+  line-height: 1.7;
+}
+.lp-capability::before {
+  content: "✓";
+  flex: none;
+  color: var(--lp-theme-text);
+  font-weight: 700;
+}
+
+/* 数字を持たない代わりに、作り手の方針で信頼を作るセクション。
+   本の帯に見立てて、差し色の面を 1 枚だけ敷く */
+.lp-promise {
+  text-align: center;
+}
+/* 面ごと出さない。帯を引いてから文を起こすので、合図だけ受ける */
+.lp-promise[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+.lp-promise-inner {
+  position: relative;
+  padding: clamp(40px, 6vw, 64px) clamp(24px, 5vw, 56px);
+  background: color-mix(in oklab, var(--lp-accent) 12%, transparent);
+}
+/* 帯を左から引く。border では引けないので上辺は疑似要素で持つ */
+.lp-promise-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--lp-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lp-promise.in .lp-promise-inner::before { transform: scaleX(1); }
+
+/* 帯が半ばまで来てから文を起こす。同時だとどちらも読み取れない */
+.lp-promise-title,
+.lp-promise-body { opacity: 0; }
+.lp-promise.in .lp-promise-title {
+  animation: lp-promise-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+.lp-promise.in .lp-promise-body {
+  animation: lp-promise-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.68s both;
+}
+@keyframes lp-promise-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.lp-promise-title {
+  font-size: clamp(24px, 3.4vw, 38px);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+.lp-promise-body {
+  max-width: 640px;
+  margin: 22px auto 0;
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 2;
+  color: var(--text-dim);
+}
+
+.closing .lp-cta {
+  background: color-mix(in oklab, var(--lp-theme), #fff 28%);
+  color: var(--band);
+}
+
+.lp-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 32px 0 12px;
+}
+.lp-links a {
+  color: var(--band-dim);
+  font-size: 14px;
+  text-decoration: none;
+}
+.lp-links a:hover { color: var(--band-text); }
+
+@media (max-width: 780px) {
+  .lp-hero {
+    grid-template-columns: 1fr;
+  }
+  .lp-hero-shot {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}
+
+/* site.css が animation と transition を全部潰すので、ここでは残る分だけ戻す。
+   潰されたままだとカードが opacity: 0 のまま消えるので、素の状態を明示する */
+@media (prefers-reduced-motion: reduce) {
+  .lp-cta,
+  .lp-spine { transition: none; }
+  .lp-cta:hover { transform: none; }
+  .lp-spine:hover { translate: none; }
+  .lp-spines.in .lp-spine { opacity: 1; }
+  .lp-spines::after { transform: scaleX(1); }
+  .lp-promise-title,
+  .lp-promise-body { opacity: 1; }
+  .lp-promise-inner::before { transform: scaleX(1); }
+  .lp-cta::before,
+  .lp-cta::after { display: none; }
+}
