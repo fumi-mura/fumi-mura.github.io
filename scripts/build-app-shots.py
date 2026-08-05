@@ -14,20 +14,14 @@ from pathlib import Path
 
 from PIL import Image
 
+from apps import load_apps
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PROGRAM_DIR = REPO_ROOT.parent
 OUT_ROOT = REPO_ROOT / "assets" / "apps"
 MANIFEST_PATH = OUT_ROOT / "manifest.json"
 
-# data-app 属性 -> アプリリポジトリ(~/Program 以下)
-APPS = {
-    "visitory": "Visitory",
-    "patrimo": "Patrimo",
-    "dripshot": "dripshot/dripshot",
-    "pulltimer": "pull-timer",
-    "reelo": "Reelo",
-    "yomoka": "yomoka",
-}
+APPS = load_apps()
 
 # サイトの言語コード -> fastlane のロケール
 LOCALES = {"ja": "ja", "en": "en-US"}

@@ -9,19 +9,13 @@ from pathlib import Path
 
 from PIL import Image
 
+from apps import load_apps
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PROGRAM_DIR = REPO_ROOT.parent
 OUT_ROOT = REPO_ROOT / "assets" / "apps"
 
-# data-app 属性 -> アプリリポジトリ(~/Program 以下)
-APPS = {
-    "visitory": "Visitory",
-    "patrimo": "Patrimo",
-    "dripshot": "dripshot/dripshot",
-    "pulltimer": "pull-timer",
-    "reelo": "Reelo",
-    "yomoka": "yomoka",
-}
+APPS = load_apps()
 
 ICON_SIZE = 192  # 表示は 56px 前後なので Retina 3x でも足りる
 QUALITY = 82

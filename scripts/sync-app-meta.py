@@ -9,19 +9,13 @@ import html
 import re
 from pathlib import Path
 
+from apps import load_apps
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PROGRAM_DIR = REPO_ROOT.parent
 INDEX = REPO_ROOT / "index.html"
 
-# data-app 属性 -> アプリリポジトリ(~/Program 以下)
-APPS = {
-    "visitory": "Visitory",
-    "patrimo": "Patrimo",
-    "dripshot": "dripshot/dripshot",
-    "pulltimer": "pull-timer",
-    "reelo": "Reelo",
-    "yomoka": "yomoka",
-}
+APPS = load_apps()
 
 ARTICLE_RE = re.compile(
     r'(<article class="card app-card" data-app="([a-z]+)"[^>]*>)(.*?)(</article>)',

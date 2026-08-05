@@ -1,4 +1,5 @@
 import importlib.util
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -6,7 +7,10 @@ from pathlib import Path
 from PIL import Image
 
 
-SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "build-app-icons.py"
+SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
+sys.path.insert(0, str(SCRIPTS))
+
+SCRIPT = SCRIPTS / "build-app-icons.py"
 SPEC = importlib.util.spec_from_file_location("build_app_icons", SCRIPT)
 build_app_icons = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(build_app_icons)
