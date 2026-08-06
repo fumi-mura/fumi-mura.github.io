@@ -311,12 +311,16 @@ html[data-lang="ja"] .panel h2 { letter-spacing: 0.03em; }
 .card-body { position: relative; display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
 .card-title { font-size: 18px; font-weight: 650; letter-spacing: -0.01em; }
 .card-sub { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+/* 見出しは押せる。地色のままだと分からないので、控えめな下線を常時出しておく */
 .card-title a, .web-title a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: color-mix(in oklab, var(--accent), transparent 40%);
   text-underline-offset: 4px;
+  transition: text-decoration-color 0.25s ease;
 }
-.card-title a:hover, .web-title a:hover { text-decoration: underline; }
+.card-title a:hover, .web-title a:hover { text-decoration-color: var(--accent); }
 .card-title a:focus-visible, .web-title a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .card-meta {
   position: relative;
@@ -326,6 +330,21 @@ html[data-lang="ja"] .panel h2 { letter-spacing: 0.03em; }
   letter-spacing: 0.04em;
   color: var(--text-dim);
 }
+/* リンクのメタだけ色を持たせる。ドメイン名や「近日公開」はラベルのままにする */
+a.card-meta {
+  color: var(--accent);
+  text-decoration: none;
+}
+a.card-meta::after {
+  content: "↗";
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 12px;
+  transition: transform 0.25s ease;
+}
+a.card-meta:hover { text-decoration: underline; text-underline-offset: 4px; }
+a.card-meta:hover::after { transform: translate(2px, -2px); }
+a.card-meta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* App card screenshot filmstrip */
 .app-card .card-body { order: 1; }
