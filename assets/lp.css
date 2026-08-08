@@ -23,8 +23,9 @@
   position: relative;
   max-width: 1180px;
   margin: 0 auto;
-  /* 下は scroll-cue の分を空ける */
-  padding: clamp(40px, 8vw, 96px) clamp(20px, 5vw, 40px) 108px;
+  /* 上は fixed の site-header に見出しが潜らないぶん、下は scroll-cue の分を空ける。
+     狭い画面では 8vw がヘッダーの高さ（約 53px）を下回るので下限を敷く */
+  padding: max(84px, clamp(40px, 8vw, 96px)) clamp(20px, 5vw, 40px) 108px;
   display: grid;
   grid-template-columns: 1fr minmax(0, 400px);
   align-items: center;
