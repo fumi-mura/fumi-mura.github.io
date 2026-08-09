@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fumi-mura.github.io/sitemap.xml
