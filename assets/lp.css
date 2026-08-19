@@ -27,7 +27,7 @@
      狭い画面では 8vw がヘッダーの高さ（約 53px）を下回るので下限を敷く */
   padding: max(84px, clamp(40px, 8vw, 96px)) clamp(20px, 5vw, 40px) 108px;
   display: grid;
-  grid-template-columns: 1fr minmax(0, 400px);
+  grid-template-columns: 1fr minmax(0, 360px);
   align-items: center;
   gap: clamp(24px, 5vw, 64px);
 }
@@ -54,7 +54,7 @@
 }
 
 .lp-title {
-  font-size: clamp(34px, 5.5vw, 60px);
+  font-size: clamp(30px, 4.6vw, 52px);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.25;
@@ -357,7 +357,7 @@
     grid-template-columns: 1fr;
   }
   .lp-hero-shot {
-    max-width: 280px;
+    max-width: 250px;
     margin: 0 auto;
   }
 }
