@@ -114,23 +114,27 @@
     },
     "yomoka": {
       "en": {
-        "count": 5,
+        "count": 7,
         "thumbs": [
           "assets/apps/yomoka/en/thumb_1.webp",
           "assets/apps/yomoka/en/thumb_2.webp",
           "assets/apps/yomoka/en/thumb_3.webp",
           "assets/apps/yomoka/en/thumb_4.webp",
-          "assets/apps/yomoka/en/thumb_5.webp"
+          "assets/apps/yomoka/en/thumb_5.webp",
+          "assets/apps/yomoka/en/thumb_6.webp",
+          "assets/apps/yomoka/en/thumb_7.webp"
         ]
       },
       "ja": {
-        "count": 5,
+        "count": 7,
         "thumbs": [
           "assets/apps/yomoka/ja/thumb_1.webp",
           "assets/apps/yomoka/ja/thumb_2.webp",
           "assets/apps/yomoka/ja/thumb_3.webp",
           "assets/apps/yomoka/ja/thumb_4.webp",
-          "assets/apps/yomoka/ja/thumb_5.webp"
+          "assets/apps/yomoka/ja/thumb_5.webp",
+          "assets/apps/yomoka/ja/thumb_6.webp",
+          "assets/apps/yomoka/ja/thumb_7.webp"
         ]
       }
     }
