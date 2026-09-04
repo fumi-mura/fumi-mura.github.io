@@ -162,7 +162,11 @@
 .lp-spines {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+  /* 190px だと 1180px の器に 5 列入り、plan.md の 7 行が 5 + 2 に割れる。
+     240px で 4 列に止めて 4 + 3 に均す */
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  /* 段ごとに中身の量が違う。放っておくと上下の段で高さが揃わない */
+  grid-auto-rows: 1fr;
   align-items: stretch;
   gap: 12px;
   margin: 0;
