@@ -1,0 +1,735 @@
+/*
+ * Reelo の LP。サイト共通の site.css は読まない（LP ごとに見た目を変えるため）。
+ * 配色は App Store のスクショ（Reelo/asc-screenshots/screenshots.yml の template.colors）と同じ値。
+ * 常にダーク。スクショ・プレビュー動画と地続きに見せるため、ライトモードは用意しない。
+ */
+:root {
+  color-scheme: dark;
+  --ink: #2C2621;
+  --umber: #423227;
+  --night: #15120F;
+  --paper: #F6F2E5;
+  --dust: #BEB4A8;
+  --amber: #F5A623;
+  /* アイコンのクリップの帯のグラデーション（AppIcon.png から拾った色） */
+  --clip: linear-gradient(90deg, #FDD426 0%, #FE8819 55%, #FC601D 100%);
+  --line: rgba(246, 242, 229, 0.14);
+  --gutter: clamp(16px, 4vw, 48px);
+  --screen-h: min(76svh, 720px);
+  /* 演出が終わってヒーローが出始める時刻 */
+  --t0: 1.5s;
+  --display: "Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
+  --mono: "DM Mono", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+
+
+body {
+  min-height: 100svh;
+  position: relative;
+  background: linear-gradient(180deg, var(--ink) 0%, var(--umber) 100%);
+  background-color: var(--ink);
+  color: var(--paper);
+  font-family: var(--display);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * ヒーローだけ一段暗くする（フッターと同じ色で、ページの上下を挟む）。
+ * 境目を直線にすると別のページを積んだように見えるので、ヒーローの下端から短く本文の茶色へ溶かす。
+ * .hero は幅を絞っているので、背景は画面幅いっぱいのこの層に持たせる
+ */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 0;
+  height: 112svh;
+  background:
+    radial-gradient(50% 55% at 72% 38%, rgba(245, 166, 35, 0.14), transparent 70%),
+    linear-gradient(180deg, var(--night) 0%, var(--night) 88%, rgba(21, 18, 15, 0) 100%);
+  pointer-events: none;
+}
+
+/* 言語の出し分け。html[data-lang] を reelo.js が書き換える */
+html[data-lang="ja"] .en,
+html[data-lang="en"] .ja { display: none; }
+
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 6px; }
+
+.bar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px var(--gutter);
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* スクロールしたら地を敷く。透明のままだと下の見出しと重なって読めない */
+.bar.scrolled {
+  background-color: rgba(44, 38, 33, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--paper);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.brand img { border-radius: 7px; }
+
+.bar-end { display: flex; align-items: center; gap: 14px; }
+
+/* スクロールしてヒーローのボタンが見えなくなったら出す */
+.bar-cta {
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--amber);
+  color: var(--night);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(-6px);
+  visibility: hidden;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+/* visibility も切り替えて、隠れている間は Tab で止まらないようにする */
+.bar.show-cta .bar-cta { opacity: 1; transform: none; visibility: visible; }
+
+.langs { display: flex; gap: 2px; font-family: var(--mono); font-size: 12px; }
+
+.langs button {
+  padding: 6px 8px;
+  border: 0;
+  background: none;
+  color: var(--dust);
+  font: inherit;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.langs button[aria-pressed="true"] { color: var(--amber); }
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(32px, 6vw, 96px);
+  max-width: 1180px;
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: 96px var(--gutter) 64px;
+}
+
+.headline {
+  font-size: clamp(40px, 5.6vw, 76px);
+  font-weight: 900;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+}
+
+.headline em { font-style: normal; }
+
+html[data-lang="en"] .headline { letter-spacing: -0.025em; line-height: 1.08; }
+
+/* 見出しは行ごとに下から出す。.line で切り抜き、中の span を動かす */
+.headline .line { display: block; overflow: hidden; padding-bottom: 0.06em; }
+.headline .line > span { display: inline-block; animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(var(--t0) + 0.08s); }
+.headline .line + .line > span { animation-delay: calc(var(--t0) + 0.2s); }
+
+.headline em {
+  background: var(--clip);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lead, .cta { animation: fade-up 0.8s ease both; animation-delay: calc(var(--t0) + 0.35s); }
+.cta { animation-delay: calc(var(--t0) + 0.45s); }
+
+.lead {
+  max-width: 30em;
+  margin-top: 28px;
+  color: var(--dust);
+  font-size: clamp(15px, 1.4vw, 17px);
+  font-weight: 500;
+  line-height: 1.9;
+  word-break: auto-phrase;
+  text-wrap: pretty;
+  /* 背景のフィルムに重なっても読めるように */
+  text-shadow: 0 1px 2px rgba(21, 18, 15, 0.9), 0 0 18px rgba(21, 18, 15, 0.9);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 40px;
+  padding: 16px 28px;
+  border-radius: 999px;
+  background: var(--amber);
+  color: var(--night);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta:hover { transform: translateY(-1px); box-shadow: 0 10px 30px -10px rgba(245, 166, 35, 0.7); }
+
+
+/* 動画と、その横の「1 日の目盛り」 */
+.reel {
+  display: flex;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.screen {
+  position: relative;
+  height: var(--screen-h);
+  aspect-ratio: 886 / 1920;
+  border-radius: 28px;
+  overflow: hidden;
+  background: var(--night);
+  animation: screen-in 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--t0) - 0.1s);
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 40px 80px -30px rgba(0, 0, 0, 0.8),
+    0 0 120px -20px rgba(245, 166, 35, 0.25);
+}
+
+.screen-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sound {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(21, 18, 15, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--paper);
+  cursor: pointer;
+}
+
+.sound svg { width: 20px; height: 20px; }
+.sound .sound-on { display: none; }
+.sound[aria-pressed="true"] .sound-off { display: none; }
+.sound[aria-pressed="true"] .sound-on { display: block; }
+.sound[aria-pressed="true"] { color: var(--amber); }
+
+.day {
+  position: relative;
+  width: 44px;
+  height: var(--screen-h);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dust);
+}
+
+.day-hours {
+  position: absolute;
+  inset: 0 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 6 時〜24 時を 3 時間ごとに 7 つ。上端と下端に揃える */
+.day-hours li {
+  position: absolute;
+  right: 0;
+  top: calc(var(--i) / 6 * 100%);
+  transform: translateY(-50%);
+  letter-spacing: 0.04em;
+}
+
+.day-hours li:nth-child(1) { --i: 0; }
+.day-hours li:nth-child(2) { --i: 1; }
+.day-hours li:nth-child(3) { --i: 2; }
+.day-hours li:nth-child(4) { --i: 3; }
+.day-hours li:nth-child(5) { --i: 4; }
+.day-hours li:nth-child(6) { --i: 5; }
+.day-hours li:nth-child(7) { --i: 6; }
+
+/* 1 時間ごとの目盛り（18 本）。3 時間ごとだけ長くする */
+.day-ticks {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  background:
+    repeating-linear-gradient(180deg, var(--line) 0 1px, transparent 1px calc(100% / 18)) right / 6px 100% no-repeat,
+    repeating-linear-gradient(180deg, rgba(246, 242, 229, 0.35) 0 1px, transparent 1px calc(100% / 6)) right / 10px 100% no-repeat;
+  border-right: 1px solid var(--line);
+}
+
+/* 再生位置を表す針。reelo.js が --p（0〜1）を書き換える */
+.day-head {
+  --p: 0;
+  position: absolute;
+  right: -4px;
+  top: calc(var(--p) * 100%);
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--paper);
+  box-shadow: 0 0 12px rgba(254, 136, 25, 0.9);
+  transform: translateY(-50%);
+}
+
+/*
+ * 背景の 1 日のフィルム。読ませるものではないので暗く沈め、端を消す。
+ * 帯は画面の何倍も長いので、画面幅の .film で切り落とす。切らないとページが横に広がり、
+ * 再読み込みでブラウザが前の横位置を戻して画面が左にずれる（html / body の overflow では止まらない）
+ */
+.film {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 0;
+  height: 100svh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.film-strip {
+  position: absolute;
+  top: 50%;
+  left: -10vw;
+  right: -10vw;
+  height: 300px;
+  transform: translateY(-50%) rotate(-5deg);
+  opacity: 0.2;
+  filter: saturate(0.7) sepia(0.25);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  animation: fade-in 1.6s ease both;
+  animation-delay: var(--t0);
+}
+
+.film-track {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  height: 100%;
+  animation: drift 90s linear infinite;
+}
+
+.film-track img {
+  height: 100%;
+  width: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+main { position: relative; z-index: 1; }
+
+/* 開いた瞬間の演出 */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  background: var(--night);
+  animation: intro-out 0.6s cubic-bezier(0.7, 0, 0.3, 1) both;
+  animation-delay: calc(var(--t0) - 0.25s);
+  pointer-events: none;
+}
+
+.intro-clips {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  width: min(48vw, 260px);
+}
+
+.intro-clips i {
+  display: block;
+  width: var(--w);
+  height: 22px;
+  border-radius: 6px;
+  background: var(--clip);
+  animation: clip-in 0.7s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+.intro-clips i:nth-child(2) { animation-delay: 0.08s; }
+.intro-clips i:nth-child(3) { animation-delay: 0.16s; }
+.intro-clips i:nth-child(4) { animation-delay: 0.24s; }
+
+.intro-head {
+  position: absolute;
+  top: -18px;
+  bottom: -18px;
+  left: 0;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--paper);
+  box-shadow: 0 0 14px rgba(246, 242, 229, 0.6);
+  animation: head-sweep 0.75s cubic-bezier(0.6, 0, 0.3, 1) both;
+  animation-delay: 0.55s;
+}
+
+@keyframes clip-in {
+  from { transform: translateX(calc(var(--from) * 70vw)); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes head-sweep {
+  0% { left: 0; transform: scaleY(0); }
+  25% { transform: scaleY(1); }
+  100% { left: 100%; transform: scaleY(1); }
+}
+
+@keyframes intro-out {
+  to { opacity: 0; visibility: hidden; transform: scale(1.04); }
+}
+
+@keyframes rise {
+  from { transform: translateY(105%); }
+  to { transform: none; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(24px) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes drift {
+  to { transform: translateX(-50%); }
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 860px) {
+  :root { --screen-h: min(68svh, 600px); }
+
+  .film-strip { top: auto; bottom: 8svh; height: 220px; transform: rotate(-5deg); }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+    padding-top: 88px;
+    text-align: center;
+  }
+
+  .reel { justify-self: center; }
+
+  .lead { margin-inline: auto; }
+
+  .lead br { display: none; }
+
+  .day { width: 36px; }
+}
+
+@media (max-width: 420px) {
+  :root { --screen-h: 62svh; }
+  .day { width: 30px; font-size: 10px; }
+  .day-hours { right: 14px; }
+  .reel { gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro { display: none; }
+  .cta { transition: none; }
+  *, *::before, *::after { animation: none !important; }
+}
+
+/* ===== ヒーローより下の節 ===== */
+.block {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(80px, 12vw, 160px) var(--gutter) 0;
+}
+
+.block-title {
+  font-size: clamp(28px, 3.4vw, 46px);
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  word-break: auto-phrase;
+}
+
+html[data-lang="en"] .block-title { line-height: 1.12; letter-spacing: -0.02em; }
+
+.block-body {
+  max-width: 34em;
+  margin-top: 20px;
+  color: var(--dust);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.9;
+  word-break: auto-phrase;
+  text-wrap: pretty;
+}
+
+.eyebrow {
+  margin-bottom: 16px;
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+
+/* 痛みと答え。左が今まで、右が Reelo。答えの側にだけアイコンの帯の色を引く */
+/* 左右の列が何かは、ここで 1 回だけ言う */
+.pain-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 48px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pain-head > span { padding: 0 30px 12px; color: rgba(190, 180, 168, 0.7); }
+.pain-head > span + span { color: var(--amber); }
+
+.pain-list {
+  display: grid;
+  gap: 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.pain {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.pain p {
+  padding: 28px 30px;
+  font-size: 16px;
+  line-height: 1.85;
+  word-break: auto-phrase;
+}
+
+.pain-before {
+  color: var(--dust);
+  background: rgba(21, 18, 15, 0.35);
+}
+
+.pain-after {
+  position: relative;
+  color: var(--paper);
+  font-weight: 700;
+  background: rgba(66, 50, 39, 0.55);
+}
+
+.pain-after::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, #FDD426, #FE8819 55%, #FC601D);
+}
+
+/* 章。見出しと動画を左右に置く */
+.chapter, .details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.clips {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.clip {
+  flex: 0 1 220px;
+  min-width: 0;
+}
+
+.clip video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1320 / 2868;
+  border-radius: 18px;
+  background: var(--night);
+  object-fit: cover;
+  box-shadow: 0 0 0 1px var(--line), 0 30px 60px -30px rgba(0, 0, 0, 0.8);
+}
+
+.clip figcaption {
+  margin-top: 14px;
+  color: var(--dust);
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  word-break: auto-phrase;
+}
+
+.details-body {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.details-body .clip { flex: 0 0 200px; }
+
+.detail-list {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detail-list li {
+  padding: 14px 0 14px 22px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.detail-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 10px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--clip);
+  transform: translateY(-50%);
+}
+
+/* 締め */
+.closing {
+  display: grid;
+  justify-items: center;
+  gap: 40px;
+  padding: clamp(120px, 16vw, 200px) var(--gutter) clamp(80px, 10vw, 120px);
+  text-align: center;
+}
+
+.closing-title {
+  font-size: clamp(44px, 7vw, 96px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.closing-title em {
+  font-style: normal;
+  background: var(--clip);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.closing .cta { margin-top: 0; animation: none; }
+
+/* 料金はボタンの下に添えるだけ */
+.closing-note {
+  margin-top: -16px;
+  color: var(--dust);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 2;
+}
+
+.foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  padding: 40px var(--gutter) 48px;
+  border-top: 1px solid var(--line);
+  /* ページ本体の茶色より一段暗くして、ここで終わりだと分かるようにする */
+  background: var(--night);
+  font-size: 13px;
+}
+
+.foot a { color: var(--dust); text-decoration: none; }
+
+.foot .copy {
+  flex-basis: 100%;
+  margin-top: 12px;
+  color: rgba(190, 180, 168, 0.6);
+  font-family: var(--mono);
+  font-size: 12px;
+  text-align: center;
+}
+.foot a:hover { color: var(--paper); }
+
+/* スクロールで現れる。JS が無ければ最初から見せる */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.js [data-reveal].in { opacity: 1; transform: none; }
+
+.js .clips [data-reveal]:nth-child(2) { transition-delay: 0.1s; }
+.js .clips [data-reveal]:nth-child(3) { transition-delay: 0.2s; }
+
+@media (max-width: 860px) {
+  .chapter, .details { grid-template-columns: minmax(0, 1fr); }
+  .pain { grid-template-columns: minmax(0, 1fr); }
+  .pain-head { display: none; }
+  .pain-list { margin-top: 40px; }
+  .pain p { padding: 22px 22px; }
+  .clips { gap: 10px; }
+  .details-body { flex-direction: column; }
+  .details-body .clip { flex-basis: auto; width: 200px; }
+  .block-title br { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] { opacity: 1; transform: none; transition: none; }
+}

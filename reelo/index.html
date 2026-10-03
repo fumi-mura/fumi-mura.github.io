@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reelo - 縦型Vlog編集アプリ</title>
+  <meta name="description" content="撮った動画が、日付ごとに自動で1本のVlogに。直したいところだけ、ストーリーのような見慣れた画面で。">
+  <link rel="canonical" href="https://fumi-mura.github.io/reelo/">
+  <link rel="icon" href="../assets/apps/reelo/icon.webp">
+  <link rel="apple-touch-icon" href="../assets/apps/reelo/apple-touch-icon.png">
+  <!-- iPhone の Safari で開いたとき、上部に App Store のバナーを出す -->
+  <meta name="apple-itunes-app" content="app-id=6785427120">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Reelo - 縦型Vlog編集アプリ">
+  <meta property="og:description" content="撮った動画が、日付ごとに自動で1本のVlogに。直したいところだけ、ストーリーのような見慣れた画面で。">
+  <meta property="og:url" content="https://fumi-mura.github.io/reelo/">
+  <meta property="og:image" content="https://fumi-mura.github.io/assets/apps/reelo/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="../assets/apps/reelo/lp/reelo.css?v=12">
+</head>
+<body>
+  <!-- 開いた瞬間の演出。アイコンと同じく、クリップの帯が集まって 1 本になり、再生ヘッドが横切る。CSS だけで動き、終わると消える -->
+  <div class="intro" aria-hidden="true">
+    <div class="intro-clips">
+      <i style="--w: 78%; --from: -1"></i>
+      <i style="--w: 92%; --from: 1"></i>
+      <i style="--w: 64%; --from: -1"></i>
+      <i style="--w: 84%; --from: 1"></i>
+      <b class="intro-head"></b>
+    </div>
+  </div>
+
+  <!-- 背景に流す 1 日のフィルム（朝のカフェ → 夜の焚き火）。継ぎ目なく流すため同じ並びを 2 回置く -->
+  <div class="film" aria-hidden="true">
+    <div class="film-strip"><div class="film-track"><img src="../assets/apps/reelo/lp/day/01.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/02.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/03.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/04.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/05.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/06.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/07.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/08.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/09.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/10.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/11.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/01.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/02.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/03.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/04.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/05.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/06.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/07.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/08.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/09.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/10.webp" alt="" width="202" height="360"><img src="../assets/apps/reelo/lp/day/11.webp" alt="" width="202" height="360"></div></div>
+  </div>
+
+  <header class="bar">
+    <a class="brand" href="./">
+      <img src="../assets/apps/reelo/icon.webp" alt="" width="28" height="28">
+      <span>Reelo</span>
+    </a>
+    <div class="bar-end">
+    <!-- ヒーローのボタンが画面から消えたら出す（reelo.js） -->
+    <a class="bar-cta" data-store href="https://apps.apple.com/jp/app/id6785427120"><span class="ja">入手</span><span class="en">Get</span></a>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-lang-btn="ja">JA</button>
+      <button type="button" data-lang-btn="en">EN</button>
+    </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <h1 class="headline">
+          <span class="ja"><span class="line"><span>あなたの1日が、</span></span><span class="line"><span><em>1本のVlog</em>になる</span></span></span>
+          <span class="en"><span class="line"><span>Your day,</span></span><span class="line"><span>in <em>one Vlog</em></span></span></span>
+        </h1>
+        <p class="lead">
+          <span class="ja">撮った動画は、日付ごとに自動でつながる。<br>直したいところだけ、ストーリーのような見慣れた画面で。</span>
+          <span class="en">Your clips line up into one vlog for each day, automatically. Fix only what you want, on a screen that feels like Stories.</span>
+        </p>
+        <!-- target は付けない。Instagram などの内蔵ブラウザは新しいタブを開けず、押しても何も起きない -->
+        <a class="cta" data-store href="https://apps.apple.com/jp/app/id6785427120">
+          <span class="ja">App Store で入手</span>
+          <span class="en">Download on the App Store</span>
+        </a>
+      </div>
+
+      <div class="reel">
+        <!-- 動画の再生位置を 1 日の時刻に見立てて針を動かす。目盛りは 6 時〜24 時 -->
+        <div class="day" aria-hidden="true">
+          <ol class="day-hours">
+            <li>06</li><li>09</li><li>12</li><li>15</li><li>18</li><li>21</li><li>24</li>
+          </ol>
+          <div class="day-ticks"></div>
+          <div class="day-head"></div>
+        </div>
+        <div class="screen">
+          <video class="screen-video" autoplay muted loop playsinline preload="metadata"
+                 poster="../assets/apps/reelo/lp/poster-ja.jpg">
+          </video>
+          <button type="button" class="sound" data-sound aria-pressed="false"
+                  data-label-on-ja="音を消す" data-label-off-ja="音を出す"
+                  data-label-on-en="Mute" data-label-off-en="Turn sound on"
+                  aria-label="音を出す">
+            <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M17 9l4 6M21 9l-4 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+            <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="block pains">
+      <h2 class="block-title" data-reveal><span class="ja">動画の編集で、<br>こんなことありませんか？</span><span class="en">Sound familiar?</span></h2>
+      <div class="pain-head" aria-hidden="true" data-reveal>
+        <span><span class="ja">よくある編集アプリ</span><span class="en">Typical editors</span></span>
+        <span>Reelo</span>
+      </div>
+      <ul class="pain-list">
+          <li class="pain" data-reveal>
+            <p class="pain-before"><span class="ja">全部のカットが1本の長いタイムラインに並ぶ。拡大と横スクロールをくり返して、並び替えもひと苦労。</span><span class="en">Every cut sits on one long timeline. You zoom and scroll back and forth just to move a clip.</span></p>
+            <p class="pain-after"><span class="ja">クリップごとに、短いタイムライン。並び替えは一覧でつかんで動かすだけ。</span><span class="en">Each clip gets its own short timeline. Reorder by dragging in the list.</span></p>
+          </li>
+          <li class="pain" data-reveal>
+            <p class="pain-before"><span class="ja">機能が多すぎて、使わないボタンばかり。操作を覚えるのも大変で、どこを触ればいいのか分からない。</span><span class="en">Too many features, most of them unused. There's a lot to learn, and it's hard to tell where to tap.</span></p>
+            <p class="pain-after"><span class="ja">縦型のVlogに要るものだけ。驚くほどシンプルで直感的な編集画面。</span><span class="en">Only what a vertical vlog needs, in a remarkably simple editor.</span></p>
+          </li>
+          <li class="pain" data-reveal>
+            <p class="pain-before"><span class="ja">操作ボタンに画面を取られて、プレビューが小さい。仕上がりが見えない。</span><span class="en">Buttons take up the screen and the preview ends up tiny.</span></p>
+            <p class="pain-after"><span class="ja">SNSのストーリーのように、全画面のプレビューを見ながら直接編集できる。</span><span class="en">Edit while watching a full-screen preview, just like social media Stories.</span></p>
+          </li>
+      </ul>
+    </section>
+
+    <section class="block chapter">
+      <header class="chapter-head" data-reveal>
+        <p class="eyebrow"><span class="ja">撮る</span><span class="en">Shoot</span></p>
+        <h2 class="block-title"><span class="ja">撮るだけで、<br>Vlogになっていく</span><span class="en">Just shoot.<br>The vlog builds itself</span></h2>
+        <p class="block-body"><span class="ja">撮った動画は日付ごとに並び、そのまま1本のVlogに。時刻と場所のラベルも自動で付きます。複数の日をまとめて、旅の記録にも。</span><span class="en">Your clips line up by day and play as one vlog. Time and place labels are added for you. Combine several days for a trip.</span></p>
+      </header>
+      <div class="clips">
+          <figure class="clip" data-reveal>
+            <video muted loop playsinline preload="none" data-clip="camera"></video>
+            <figcaption><span class="ja">ボタンひとつで撮影</span><span class="en">One tap to record</span></figcaption>
+          </figure>
+          <figure class="clip" data-reveal>
+            <video muted loop playsinline preload="none" data-clip="vlogs"></video>
+            <figcaption><span class="ja">日付ごとに、自動で1本に</span><span class="en">One vlog for each day</span></figcaption>
+          </figure>
+          <figure class="clip" data-reveal>
+            <video muted loop playsinline preload="none" data-clip="label"></video>
+            <figcaption><span class="ja">時刻と場所を、自動で</span><span class="en">Time and place, stamped for you</span></figcaption>
+          </figure>
+      </div>
+    </section>
+
+    <section class="block chapter">
+      <header class="chapter-head" data-reveal>
+        <p class="eyebrow"><span class="ja">直す</span><span class="en">Fix</span></p>
+        <h2 class="block-title"><span class="ja">気になるところだけ、<br>直せばいい</span><span class="en">Fix only<br>what bugs you</span></h2>
+        <p class="block-body"><span class="ja">編集は、全画面のプレビューの上で指で直接。カットもテロップも色味も、見慣れたストーリーの画面で終わります。</span><span class="en">Edit with your finger, right on the full-screen preview. Cuts, captions and color all happen on a screen that feels like Stories.</span></p>
+      </header>
+      <div class="clips">
+          <figure class="clip" data-reveal>
+            <video muted loop playsinline preload="none" data-clip="cut"></video>
+            <figcaption><span class="ja">いらないところをカット</span><span class="en">Cut what you don't need</span></figcaption>
+          </figure>
+          <figure class="clip" data-reveal>
+            <video muted loop playsinline preload="none" data-clip="caption"></video>
+            <figcaption><span class="ja">思い出をテロップに</span><span class="en">Add a caption</span></figcaption>
+          </figure>
+          <figure class="clip" data-reveal>
+            <video muted loop playsinline preload="none" data-clip="filter"></video>
+            <figcaption><span class="ja">色味をワンタップで</span><span class="en">Change the look in one tap</span></figcaption>
+          </figure>
+      </div>
+    </section>
+
+    <section class="block chapter">
+      <header class="chapter-head" data-reveal>
+        <p class="eyebrow"><span class="ja">仕上げる</span><span class="en">Finish</span></p>
+        <h2 class="block-title"><span class="ja">Vlogらしい仕上げも、<br>ワンタップで</span><span class="en">The finishing touch,<br>in one tap</span></h2>
+        <p class="block-body"><span class="ja">各クリップの冒頭をつないで、Vlogの始めによく見るオープニングを自動で。BGMは収録曲から選ぶか、好きな曲を入れられます。</span><span class="en">An opening made from the start of each clip, the kind you see at the top of vlogs. Pick a built-in track or add your own music.</span></p>
+      </header>
+      <div class="clips">
+          <figure class="clip" data-reveal>
+            <video muted loop playsinline preload="none" data-clip="opening"></video>
+            <figcaption><span class="ja">オープニングを自動で</span><span class="en">An opening, made for you</span></figcaption>
+          </figure>
+      </div>
+    </section>
+
+    <section class="block details">
+      <header class="chapter-head" data-reveal>
+        <h2 class="block-title"><span class="ja">細かいところまで、<br>気持ちよく</span><span class="en">Small things,<br>done right</span></h2>
+        <p class="block-body"><span class="ja">ラベルの時刻はあとから変えられて、順番が前後したら教えてくれる。毎日使うものだから、小さな手間をひとつずつ減らしました。</span><span class="en">Change a label's time later, and get a heads-up if the order no longer makes sense. Small savings add up when you use it every day.</span></p>
+      </header>
+      <div class="details-body">
+          <figure class="clip" data-reveal>
+            <video muted loop playsinline preload="none" data-clip="time"></video>
+            <figcaption><span class="ja">ラベルの時刻を、あとから変える</span><span class="en">Change a label's time later</span></figcaption>
+          </figure>
+        <ul class="detail-list" data-reveal>
+            <li><span class="ja">長押しで2倍速再生</span><span class="en">Hold to play at 2×</span></li>
+            <li><span class="ja">テロップはゴミ箱へドロップで削除</span><span class="en">Drop a caption on the trash to delete it</span></li>
+            <li><span class="ja">タイムラインへドロップでテロップをコピー</span><span class="en">Drop a caption on the timeline to copy it</span></li>
+            <li><span class="ja">時刻の順番が前後したら、そっと警告</span><span class="en">A gentle warning when times go out of order</span></li>
+            <li><span class="ja">元に戻す・やり直す</span><span class="en">Undo and redo</span></li>
+            <li><span class="ja">編集中も、ほかのアプリの音声を流せる</span><span class="en">Keep other apps playing audio while you edit</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="closing">
+      <h2 class="closing-title" data-reveal><span class="ja">毎日を、<em>Vlogに。</em></span><span class="en">Every day,<br><em>a Vlog.</em></span></h2>
+      <a class="cta" data-store href="https://apps.apple.com/jp/app/id6785427120"><span class="ja">App Store で入手</span><span class="en">Download on the App Store</span></a>
+      <!-- 料金は控えめに、ボタンの下に添えるだけ。機能を並べて比べると押し売りに見える -->
+      <p class="closing-note"><span class="ja">基本の機能は、無料で使えます。<br>Proなら、さらにハイクオリティなVlogに。</span><span class="en">The basics are free.<br>Go Pro for an even more polished vlog.</span></p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="privacy/"><span class="ja">プライバシーポリシー</span><span class="en">Privacy Policy</span></a>
+    <a href="support/"><span class="ja">サポート</span><span class="en">Support</span></a>
+    <p class="copy">© 2026 fumi</p>
+  </footer>
+
+  <div class="grain" aria-hidden="true"></div>
+  <script src="../assets/apps/reelo/lp/reelo.js?v=6"></script>
+</body>
+</html>
