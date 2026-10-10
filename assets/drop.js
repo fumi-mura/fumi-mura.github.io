@@ -858,6 +858,7 @@
   }
 
   // items: [{ kind, src? }]; each spawned body picks one at random, then companions (a dog's bone) join once.
+  // With count === "each", every item spawns exactly once instead.
   function burst(from, items, count) {
     if (!items.length) return;
     ensureLayer();
@@ -865,7 +866,8 @@
     var o = originOf(from);
     var now = performance.now();
     var picks = [];
-    for (var p = 0; p < (count || 10); p++) picks.push(items[Math.floor(Math.random() * items.length)]);
+    if (count === "each") picks = items.slice();
+    else for (var p = 0; p < (count || 10); p++) picks.push(items[Math.floor(Math.random() * items.length)]);
     var extras = companionsNeeded(world, picks, now);
     for (var c = 0; c < extras.length; c++) picks.push(extras[c]);
     var n = picks.length;

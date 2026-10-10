@@ -212,6 +212,66 @@
     }
   }
 
+  // Hero intro: the title's letters drop in and bounce, then a few app icons pop out.
+  // The slow drop plays once a day and later visits get a quicker one; the icons pop out every time
+  // so every visitor learns they can be grabbed.
+  var title = document.querySelector(".hero-title");
+  if (title && root.classList.contains("intro-pending") && typeof title.animate === "function") {
+    var today = new Date().toISOString().slice(0, 10);
+    var seenIntro = null;
+    try {
+      seenIntro = localStorage.getItem("fumiworks_intro");
+      localStorage.setItem("fumiworks_intro", today);
+    } catch (e) {}
+    var fullIntro = seenIntro !== today;
+    var text = title.textContent;
+    title.setAttribute("aria-label", text);
+    title.textContent = "";
+    var heroChars = [];
+    text.split(" ").forEach(function (word, wi) {
+      if (wi) title.appendChild(document.createTextNode(" "));
+      var w = document.createElement("span");
+      w.className = "hero-word";
+      for (var c = 0; c < word.length; c++) {
+        var ch = document.createElement("span");
+        ch.className = "hero-char";
+        ch.textContent = word[c];
+        ch.setAttribute("aria-hidden", "true");
+        w.appendChild(ch);
+        heroChars.push(ch);
+      }
+      title.appendChild(w);
+    });
+    var dropMs = fullIntro ? 1300 : 800;
+    var stagger = fullIntro ? 90 : 55;
+    heroChars.forEach(function (ch, i) {
+      var tilt = (Math.random() - 0.5) * 30;
+      ch.animate([
+        { transform: "translateY(-110vh) rotate(" + tilt + "deg)", easing: "cubic-bezier(.55,0,.9,.45)" },
+        { transform: "translateY(0) scale(1.16, .8)", offset: 0.5, easing: "cubic-bezier(.2,.7,.3,1)" },
+        { transform: "translateY(-16%) scale(.96, 1.05)", offset: 0.7, easing: "cubic-bezier(.5,0,.8,.5)" },
+        { transform: "translateY(0) scale(1.04, .96)", offset: 0.85 },
+        { transform: "none" }
+      ], { duration: dropMs, delay: i * stagger, fill: "backwards" });
+    });
+    var lastLands = (heroChars.length - 1) * stagger + dropMs * 0.5;
+    var allSettled = (heroChars.length - 1) * stagger + dropMs;
+    if (canDrop) {
+      setTimeout(function () {
+        var picks = appItems().sort(function () { return Math.random() - 0.5; }).slice(0, 3);
+        window.Drop.burst(title, picks, "each");
+      }, lastLands);
+    }
+    var heroSub = document.querySelector(".hero-sub");
+    var cue = document.querySelector(".scroll-cue");
+    if (heroSub) {
+      heroSub.animate([{ opacity: 0, transform: "translateY(12px)" }, { opacity: 1, transform: "none" }],
+        { duration: 600, delay: allSettled - 150, easing: "cubic-bezier(.16,1,.3,1)", fill: "backwards" });
+    }
+    if (cue) cue.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 600, delay: allSettled + 200, fill: "backwards" });
+  }
+  root.classList.remove("intro-pending");
+
   var logo = document.querySelector(".logo");
 
   // Logo: magnet hover

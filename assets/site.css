@@ -202,6 +202,12 @@ html[data-theme="dark"] .icon-sun { opacity: 0; transform: rotate(90deg) scale(0
   animation: blobDrift2 18s ease-in-out infinite alternate;
 }
 .hero-inner { position: relative; }
+/* Hero intro (site.js): hidden until the title's letters drop in */
+.intro-pending .hero-title,
+.intro-pending .hero-sub,
+.intro-pending .scroll-cue { visibility: hidden; }
+.hero-word { display: inline-block; white-space: nowrap; }
+.hero-char { display: inline-block; transform-origin: 50% 100%; }
 .hero-title {
   font-size: clamp(48px, 9vw, 104px);
   font-weight: 700;

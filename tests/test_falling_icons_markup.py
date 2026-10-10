@@ -149,6 +149,19 @@ class FallingIconsMarkupTests(unittest.TestCase):
             r"@media \(pointer: coarse\) \{\s*\.drop-token, \.drop-token\.is-held \{ filter: none; \}",
         )
 
+    def test_hero_intro_hides_the_title_before_paint_with_a_safety_net(self):
+        head = self.index.split("</head>")[0]
+        self.assertIn('classList.add("intro-pending")', head)
+        self.assertIn("prefers-reduced-motion: reduce", head)
+        self.assertRegex(head, r'setTimeout\(function \(\) \{ [^}]*classList\.remove\("intro-pending"\)')
+        self.assertRegex(self.css, r"\.intro-pending \.hero-title,\n\.intro-pending \.hero-sub,\n\.intro-pending \.scroll-cue \{ visibility: hidden; \}")
+
+    def test_hero_intro_keeps_the_title_readable(self):
+        js = read("assets/site.js")
+        self.assertIn('title.setAttribute("aria-label", text)', js)
+        self.assertIn('ch.setAttribute("aria-hidden", "true")', js)
+        self.assertIn("fumiworks_intro", js)
+
     def test_background_blobs_never_swallow_clicks(self):
         rule = re.search(r"\.blob-wrap \{(?P<body>[^}]*)\}", self.css)
         self.assertIsNotNone(rule)
