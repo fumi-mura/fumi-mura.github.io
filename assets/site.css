@@ -500,6 +500,9 @@ footer { padding: clamp(48px, 7vw, 72px) 0 0; font-size: 13px; color: var(--band
   margin: 0 auto;
 }
 .about-hero .section-head { margin-bottom: 22px; }
+/* The blob is absolutely positioned; without this it paints its tint over the photo and text */
+.about-hero .section-head,
+.about-hero .about-lead { position: relative; }
 .about-lead { font-size: clamp(16px, 2vw, 19px); color: var(--text-dim); line-height: 1.9; max-width: 720px; }
 
 .prose {

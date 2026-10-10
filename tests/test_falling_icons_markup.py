@@ -162,6 +162,10 @@ class FallingIconsMarkupTests(unittest.TestCase):
         self.assertIn('ch.setAttribute("aria-hidden", "true")', js)
         self.assertIn("fumiworks_intro", js)
 
+    def test_about_hero_content_sits_above_the_blob(self):
+        # The blob is absolutely positioned, so static content would be painted underneath its tint.
+        self.assertIn(".about-hero .section-head,\n.about-hero .about-lead { position: relative; }", self.css)
+
     def test_background_blobs_never_swallow_clicks(self):
         rule = re.search(r"\.blob-wrap \{(?P<body>[^}]*)\}", self.css)
         self.assertIsNotNone(rule)
