@@ -5,7 +5,7 @@
 
   var GRAVITY = 2400;
   var MAX_BODIES = 40;
-  var LIFETIME = 10000;
+  var LIFETIME = 7000;
   var MAX_THROW = 1800;
   // Fresh bodies ignore pointers briefly so a quick second tap reaches the trigger they spawned over.
   var GRAB_DELAY = 300;
@@ -91,10 +91,20 @@
     };
   }
 
+  // Phones get smaller icons and fewer of them, so a screenful stays readable and cheap to render.
+  function sizeScale(width) {
+    return Math.max(0.65, Math.min(1, 0.65 + (width - 390) / (900 - 390) * 0.35));
+  }
+
+  function maxBodiesFor(width) {
+    return width < 600 ? 24 : MAX_BODIES;
+  }
+
   function add(world, body) {
     world.bodies.push(body);
     var evicted = [];
-    for (var i = 0; world.bodies.length > MAX_BODIES && i < world.bodies.length; ) {
+    var cap = maxBodiesFor(world.width);
+    for (var i = 0; world.bodies.length > cap && i < world.bodies.length; ) {
       if (world.bodies[i].held) { i++; continue; }
       evicted.push(world.bodies.splice(i, 1)[0]);
     }
@@ -574,6 +584,8 @@
     drainEvents: drainEvents,
     addLetter: addLetter,
     companionsNeeded: companionsNeeded,
+    sizeScale: sizeScale,
+    maxBodiesFor: maxBodiesFor,
     flexScale: flexScale
   };
 
@@ -587,6 +599,8 @@
   var doc = global.document;
   var layer = null;
   var trails = null;
+  // Read once per burst: getComputedStyle every frame forced a full style recalc on each tick.
+  var trailColor = "rgba(255,255,255,.6)";
   var ctx = null;
   var world = null;
   var running = false;
@@ -686,8 +700,7 @@
   // Twin engine streaks that thin out and fade with age.
   function drawTrails() {
     ctx.clearRect(0, 0, world.width, world.height);
-    var color = global.getComputedStyle(layer).getPropertyValue("--trail").trim() || "rgba(255,255,255,.6)";
-    ctx.strokeStyle = color;
+    ctx.strokeStyle = trailColor;
     // Butt caps: round caps overlap at every joint and read as a dotted line.
     ctx.lineCap = "butt";
     for (var i = 0; i < world.bodies.length; i++) {
@@ -848,6 +861,7 @@
   function burst(from, items, count) {
     if (!items.length) return;
     ensureLayer();
+    trailColor = global.getComputedStyle(layer).getPropertyValue("--trail").trim() || trailColor;
     var o = originOf(from);
     var now = performance.now();
     var picks = [];
@@ -861,7 +875,7 @@
       var item = picks[i];
       if (item.kind === "dog" && Math.random() < 0.5) item = { kind: "dog", variant: "poodle" };
       var k = KINDS[item.kind] || KINDS.app;
-      var size = Math.round(rand(k.size[0], k.size[1]));
+      var size = Math.round(rand(k.size[0], k.size[1]) * sizeScale(world.width));
       var angle = rand(-Math.PI * 0.9, -Math.PI * 0.1) + tilt;
       var speed = rand(420, 950);
       var el = makeElement(item, size);

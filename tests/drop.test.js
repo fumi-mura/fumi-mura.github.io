@@ -468,6 +468,25 @@ test("only dogs and steam keep the world awake once things settle", function () 
   assert.equal(Drop.isCalm(w), false);
 });
 
+test("icons fade out after 7 seconds", function () {
+  assert.equal(Drop.LIFETIME, 7000);
+});
+
+test("icons shrink on narrow screens", function () {
+  assert.equal(Drop.sizeScale(1280), 1);
+  assert.equal(Drop.sizeScale(900), 1);
+  assert.ok(Math.abs(Drop.sizeScale(390) - 0.65) < 1e-9);
+  assert.ok(Drop.sizeScale(600) > 0.65 && Drop.sizeScale(600) < 1);
+});
+
+test("narrow screens keep fewer icons on screen", function () {
+  assert.equal(Drop.maxBodiesFor(1280), Drop.MAX_BODIES);
+  assert.equal(Drop.maxBodiesFor(390), 24);
+  const w = Drop.createWorld({ width: 390, height: 844, rand: seeded(1) });
+  for (let i = 0; i < 30; i++) Drop.add(w, Drop.createBody({ kind: "app", x: 100, y: 100, size: 40, now: 0 }));
+  assert.equal(w.bodies.length, 24);
+});
+
 test("the oldest bodies are evicted beyond MAX_BODIES", function () {
   const w = world();
   const first = drop(w, "app");

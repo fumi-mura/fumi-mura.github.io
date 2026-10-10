@@ -137,6 +137,18 @@ class FallingIconsMarkupTests(unittest.TestCase):
         self.assertIn("padding: 0;", rule["body"])
         self.assertNotRegex(self.css, r"\.interest-chip:hover \{[^}]*background")
 
+    def test_drop_triggers_skip_double_tap_zoom(self):
+        rule = re.search(r"(?P<sel>[^{}]*)\{ touch-action: manipulation; \}", self.css)
+        self.assertIsNotNone(rule)
+        for sel in [".interest-chip", ".avatar", ".app-icon.is-droppable", ".logo"]:
+            self.assertIn(sel, rule["sel"])
+
+    def test_touch_devices_skip_the_costly_icon_shadow(self):
+        self.assertRegex(
+            self.css,
+            r"@media \(pointer: coarse\) \{\s*\.drop-token, \.drop-token\.is-held \{ filter: none; \}",
+        )
+
     def test_background_blobs_never_swallow_clicks(self):
         rule = re.search(r"\.blob-wrap \{(?P<body>[^}]*)\}", self.css)
         self.assertIsNotNone(rule)

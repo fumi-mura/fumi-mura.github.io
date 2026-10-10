@@ -645,6 +645,12 @@ footer { padding: clamp(48px, 7vw, 72px) 0 0; font-size: 13px; color: var(--band
 }
 
 .app-icon.is-droppable { cursor: pointer; }
+/* Rapid taps on iOS were read as double-tap-to-zoom, which stalls the page */
+.interest-chip, .avatar, .app-icon.is-droppable, .logo { touch-action: manipulation; }
+/* drop-shadow on many moving layers is expensive on phone GPUs */
+@media (pointer: coarse) {
+  .drop-token, .drop-token.is-held { filter: none; }
+}
 .app-icon.is-droppable:active { transform: scale(0.9); }
 
 .about-hero .section-head { align-items: center; }
