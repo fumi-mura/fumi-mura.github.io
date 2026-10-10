@@ -36,6 +36,7 @@
     <section class="about-hero">
       <div class="blob-wrap blob-wrap-1"><div class="blob blob-1"></div></div>
       <div class="section-head">
+        <button type="button" class="avatar" data-drop="interests" aria-label="fumi"><img src="/assets/about/face.webp" alt="" width="96" height="96"></button>
         <h1 class="section-title">About</h1>
         <p class="section-sub"><span class="ja">fumi — エンジニア / ライフコーチ</span><span class="en">fumi — Engineer &amp; life coach</span></p>
       </div>
@@ -91,7 +92,14 @@
 
       <section class="panel" data-reveal>
         <h2><span class="ja">関心のあること</span><span class="en">What I'm into</span></h2>
-        <p><span class="ja">転職・キャリア、教育、旅行、バスケットボール、サウナ。自分が興味を持っている領域がそのまま作るものにつながっていて、旅の記録アプリやコーチングのサービスはここから生まれています。</span><span class="en">Careers and career change, education, travel, basketball, and sauna. What I'm curious about tends to become what I build — my travel-logging apps and coaching service both started here.</span></p>
+        <div class="interest-chips">
+          <button type="button" class="interest-chip" data-kind="travel"><span class="interest-icon" data-kind="travel"></span><span class="ja">旅行</span><span class="en">Travel</span></button>
+          <button type="button" class="interest-chip" data-kind="basketball"><span class="interest-icon" data-kind="basketball"></span><span class="ja">バスケットボール</span><span class="en">Basketball</span></button>
+          <button type="button" class="interest-chip" data-kind="sauna"><span class="interest-icon" data-kind="sauna"></span><span class="ja">サウナ</span><span class="en">Sauna</span></button>
+          <button type="button" class="interest-chip" data-kind="dog"><span class="interest-icon" data-kind="dog"></span><span class="ja">犬</span><span class="en">Dogs</span></button>
+          <button type="button" class="interest-chip" data-kind="training"><span class="interest-icon" data-kind="training"></span><span class="ja">筋トレ</span><span class="en">Working out</span></button>
+          <button type="button" class="interest-chip" data-kind="reading"><span class="interest-icon" data-kind="reading"></span><span class="ja">読書</span><span class="en">Reading</span></button>
+        </div>
       </section>
 
     </div>
@@ -115,6 +123,7 @@
     </section>
   </div>
 
+  <script src="/assets/drop.js"></script>
   <script src="/assets/site.js"></script>
 </body>
 </html>

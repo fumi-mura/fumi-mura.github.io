@@ -162,6 +162,56 @@
     }
   }
 
+  // Falling icons (assets/drop.js)
+  var canDrop = !reduce && !!window.Drop && typeof Element.prototype.animate === "function";
+  var appIcons = document.querySelectorAll(".app-card .app-icon");
+
+  function appItems() {
+    var items = [];
+    for (var i = 0; i < appIcons.length; i++) items.push({ kind: "app", src: appIcons[i].currentSrc || appIcons[i].src });
+    return items;
+  }
+
+  function pop(el) {
+    el.animate(
+      [{ transform: "scale(1)" }, { transform: "scale(1.18)", offset: 0.3 }, { transform: "scale(0.94)", offset: 0.6 }, { transform: "scale(1)" }],
+      { duration: 520, easing: "ease-out" }
+    );
+  }
+
+  function dropFrom(el, items, count) {
+    pop(el);
+    window.Drop.burst(el, items, count);
+  }
+
+  if (canDrop) {
+    for (var ai = 0; ai < appIcons.length; ai++) {
+      (function (icon) {
+        icon.classList.add("is-droppable");
+        icon.addEventListener("click", function () {
+          dropFrom(icon, [{ kind: "app", src: icon.currentSrc || icon.src }], 8);
+        });
+      })(appIcons[ai]);
+    }
+
+    var chips = document.querySelectorAll(".interest-chip[data-kind]");
+    var interestItems = [];
+    for (var ci = 0; ci < chips.length; ci++) {
+      (function (chip) {
+        var item = { kind: chip.getAttribute("data-kind") };
+        interestItems.push(item);
+        chip.addEventListener("click", function () {
+          dropFrom(chip.querySelector(".interest-icon") || chip, [item], 8);
+        });
+      })(chips[ci]);
+    }
+
+    var avatar = document.querySelector('[data-drop="interests"]');
+    if (avatar && interestItems.length) {
+      avatar.addEventListener("click", function () { dropFrom(avatar, interestItems, 12); });
+    }
+  }
+
   var logo = document.querySelector(".logo");
 
   // Logo: magnet hover
@@ -217,6 +267,8 @@
       if (!reduce && typeof Element.prototype.animate === "function") burst();
     }
 
+    // On the home page the logo would only reload, so a single tap rains app icons instead.
+    var isHome = /^\/(index\.html)?$/.test(window.location.pathname);
     var clicks = 0, tapTimer = null;
     logo.addEventListener("click", function (e) {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
@@ -226,6 +278,11 @@
       if (clicks >= 2) {
         clicks = 0;
         celebrate();
+        return;
+      }
+      if (isHome && canDrop) {
+        dropFrom(logo, appItems(), 12);
+        tapTimer = setTimeout(function () { clicks = 0; }, 300);
         return;
       }
       var href = logo.getAttribute("href");

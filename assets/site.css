@@ -19,6 +19,8 @@
   --band-text: oklch(0.97 0.004 260);
   --band-dim: oklch(0.72 0.01 260);
   --band-accent: oklch(0.78 0.13 250);
+  /* canvas strokes need a classic color format */
+  --trail: rgba(118, 138, 170, 0.55);
   --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Segoe UI", "Yu Gothic", sans-serif;
 }
 :root[data-theme="dark"] {
@@ -39,6 +41,7 @@
   --shadow-hover: 0 14px 34px oklch(0 0 0 / 0.5);
   --track: oklch(0.35 0.02 260 / 0.6);
   --band: oklch(0.11 0.008 260);
+  --trail: rgba(255, 255, 255, 0.7);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -180,7 +183,7 @@ html[data-theme="dark"] .icon-sun { opacity: 0; transform: rotate(90deg) scale(0
   padding: 120px 24px 60px;
   overflow: hidden;
 }
-.blob-wrap { position: absolute; will-change: transform; transition: opacity 0.6s ease; }
+.blob-wrap { position: absolute; pointer-events: none; will-change: transform; transition: opacity 0.6s ease; }
 .blob-wrap-1 { top: -120px; left: -100px; }
 .blob-wrap-2 { bottom: -140px; right: -100px; }
 .blob-wrap.is-breathing { animation: blobBreathe 5s ease-in-out infinite; }
@@ -566,6 +569,129 @@ footer { padding: clamp(48px, 7vw, 72px) 0 0; font-size: 13px; color: var(--band
   z-index: 9999;
   will-change: transform, opacity;
 }
+
+/* Falling icons (assets/drop.js) */
+[data-kind="reading"] { --tone: oklch(0.63 0.11 170); --emoji: url("/assets/emoji3d/reading.webp"); }
+[data-kind="travel"] { --tone: oklch(0.62 0.14 245); --emoji: url("/assets/emoji3d/travel.webp"); }
+[data-kind="basketball"] { --tone: oklch(0.7 0.16 52); --emoji: url("/assets/emoji3d/basketball.webp"); }
+[data-kind="sauna"] { --tone: oklch(0.64 0.17 25); --emoji: url("/assets/emoji3d/sauna.webp"); }
+[data-kind="training"] { --tone: oklch(0.55 0.08 270); --emoji: url("/assets/emoji3d/training.webp"); }
+[data-kind="dog"] { --tone: oklch(0.68 0.1 70); --emoji: url("/assets/emoji3d/dog.webp"); }
+[data-kind="bone"] { --emoji: url("/assets/emoji3d/bone.webp"); }
+[data-kind="dog"][data-variant="poodle"] { --emoji: url("/assets/emoji3d/poodle.webp"); }
+.drop-token[data-kind="reading"]:not(.is-open) { --emoji: url("/assets/emoji3d/reading-closed.webp"); }
+
+.drop-layer {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 9998;
+}
+.drop-item {
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform, opacity;
+  box-shadow: 0 6px 14px oklch(0.3 0.02 260 / 0.22);
+}
+.drop-item.is-held { cursor: grabbing; box-shadow: 0 16px 28px oklch(0.3 0.02 260 / 0.3); }
+/* A box-shadow would draw a square around the emoji, so the shadow follows its shape instead. */
+.drop-token { box-shadow: none; filter: drop-shadow(0 4px 5px oklch(0.3 0.02 260 / 0.28)); }
+.drop-token.is-held { box-shadow: none; filter: drop-shadow(0 12px 12px oklch(0.3 0.02 260 / 0.32)); }
+.drop-app { border-radius: 22.37%; }
+.drop-trails {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.drop-steam {
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+  background: url("/assets/emoji3d/steam.webp") center / contain no-repeat;
+  will-change: transform, opacity;
+}
+.drop-letter {
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+  padding: 0.2em 0.32em;
+  border-radius: 0.3em;
+  background: var(--tone);
+  color: #fff;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 3px 8px oklch(0.3 0.02 260 / 0.25);
+  will-change: transform, opacity;
+}
+.drop-token,
+.interest-icon {
+  display: block;
+}
+/* Fluent 3D emoji (assets/emoji3d, MIT) */
+.drop-token::before,
+.interest-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--emoji) center / contain no-repeat;
+}
+
+.app-icon.is-droppable { cursor: pointer; }
+.app-icon.is-droppable:active { transform: scale(0.9); }
+
+.about-hero .section-head { align-items: center; }
+.avatar {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.45s cubic-bezier(.34,1.56,.64,1);
+}
+.avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent-soft), var(--shadow);
+}
+.avatar:hover { transform: rotate(-6deg) scale(1.05); }
+.avatar:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+
+.interest-chips { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 4px 0 18px; }
+.interest-chips:last-child { margin-bottom: 0; }
+.interest-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.interest-chip .interest-icon { transition: transform 0.35s cubic-bezier(.34,1.56,.64,1); }
+.interest-chip:hover .interest-icon { transform: translateY(-3px) rotate(-8deg) scale(1.15); }
+.interest-chip:active .interest-icon { transform: scale(0.9); }
+.interest-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.interest-icon { position: relative; flex: none; width: 24px; height: 24px; }
 
 /* Scroll reveal */
 [data-reveal] {
